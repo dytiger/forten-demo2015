@@ -1,0 +1,55 @@
+body {
+	margin-top: 4em;
+}
+
+label, input {
+	display: block;
+}
+
+input.text {
+	margin-bottom: 12px;
+	width: 95%;
+	padding: .4em;
+}
+
+fieldset {
+	padding: 0;
+	border: 0;
+	margin-top: 25px;
+}
+
+/* 消息对话框的样式 */
+.msg>div{
+	height: 100%;
+	display: inline;
+	vertical-align: middle;
+	padding-left: 2em;
+	font-size: 1.5em;
+	font-family: 微软雅黑;
+	color: #666;
+}
+/* 排序按钮的样式 */
+.order-btn{
+	/* 鼠标箭头的样式 */
+	cursor:pointer;
+	padding-left: 1em;
+}
+.page-input{
+	width: 60px;
+	padding-right: 5px;
+	text-align: right;
+}
+
+tfoot>span{
+	margin-left: 0.5em;
+}
+/* 快捷编辑按钮div的样式 */
+#fast-edit-btn-div{
+	width:12em;
+	height: 3.5em;
+	text-align: center;
+	padding-top: 0.5em;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	border-radius: 0px 0px 15px 15px;
+}

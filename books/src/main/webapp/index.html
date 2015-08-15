@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/forms.js"></script>
+<style type="text/css">
+body {
+	padding-top: 5em;
+}
+
+form {
+	border-left: 0.8em solid #669;
+	padding: 3em 0em;
+}
+</style>
+<script type="text/javascript">
+	$(function() {
+		listAll();
+		$("#save-btn").on('click',save);
+	});
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>名称</th>
+							<th>作者</th>
+							<th>类型</th>
+							<th>出版日期</th>
+							<th>价格</th>
+							<th>折扣</th>
+							<th>折扣价</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<div class="col-md-4">
+				<form id="save-book-form" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-4 control-label">书名</label>
+						<div class="col-sm-8">
+							<input class="form-control" id="name" name="name"
+								placeholder="书籍名称">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">作者</label>
+						<div class="col-sm-8">
+							<input class="form-control" id="author" name="author"
+								placeholder="作者">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">类型</label>
+						<div class="col-sm-8">
+							<input class="form-control" id="type" name="type"
+								list="type-list" placeholder="类型">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">价格</label>
+						<div class="col-sm-8">
+							<input type="number" class="form-control" id="price" name="price"
+								placeholder="价格">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">折扣</label>
+						<div class="col-sm-8">
+							<input type="number" min="1" max="10" step="0.1" value="8"
+								class="form-control" id="discount" name="discount"
+								placeholder="折扣">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">出版日期</label>
+						<div class="col-sm-8">
+							<input type="date" class="form-control" id="pubDate"
+								name="pubDate" placeholder="出版日期" value="2015-09-01">
+						</div>
+					</div>
+					<div class="text-center">
+						<button id="save-btn" class="btn btn-success" type="button">保存</button>
+						<button class="btn btn-warning" type="reset">重置</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<datalist id="type-list">
+		<option>文学</option>
+		<option>艺术</option>
+		<option>生活</option>
+		<option>工具</option>
+		<option>哲学</option>
+	</datalist>
+	<script type="text/javascript">
+		var save = function() {
+			// 获得添加表单中的数据，转换为JSON串的数据形式
+			var formData = $("#save-book-form").getFormDataJSON();
+			// 调用ajax请求
+			$.ajax({
+				url : 'book/save.do',// 后台服务URL地址
+				type : 'POST',// 请求方式
+				dataType : 'json',// 获取到的响应数据格式
+				contentType : "application/json",// 发送请求的数据格式
+				data : formData // 发送的数据
+			}).done(function() {
+				alert("书籍信息保存成功");
+			}).fail(function() {
+				alert("书籍信息保存成功");
+			}).always(function() {
+				listAll();
+			});
+		};
+		var listAll = function(){
+			$.ajax({
+				url: 'book/listAll.do',
+				type: 'POST',
+				dataType: 'json',
+				contentType: "application/json"
+			}).done(function(data){
+				// 先把数据显示区域中的内容清空
+				$('tbody:first').empty();
+				// 对数据进行遍历
+				$.each(data,function(index,book){
+					// 组装第一条数据的tr元素
+					var dataTr = '<tr><td>'+(index+1)+'</td><td>'+book.name+'</td><td>'+book.author+'</td><td>'+book.type+'</td><td>'+book.pubDateStr+'</td><td>'+book.price+'</td><td>'+book.discount+'</td><td>'+(book.price*book.discount*0.1)+'</td></tr>';
+					// 把数据的tr元素追加到数据显示区域（tbody）
+					$('tbody:first').append(dataTr);
+				});
+			}).fail(function(xhr,status,errorMsg){
+				$('tbody:first').html('<tr><td colspan="9"><h2>加载数据失败</h2></td></tr>');
+			});
+		};
+	</script>
+</body>
+</html>
