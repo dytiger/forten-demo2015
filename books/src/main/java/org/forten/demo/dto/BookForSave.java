@@ -2,6 +2,11 @@ package org.forten.demo.dto;
 
 import java.util.Date;
 
+/**
+ * 用于保存书籍时使用的数据传输对象
+ * 
+ * @author Duyi
+ */
 public class BookForSave {
 	private String name;
 	private String author;

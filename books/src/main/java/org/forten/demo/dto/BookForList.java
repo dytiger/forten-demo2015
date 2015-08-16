@@ -4,6 +4,11 @@ import java.util.Date;
 
 import org.forten.util.DateUtil;
 
+/**
+ * 用于在页面中显示书籍数据的数据传输对象
+ * 
+ * @author duyi
+ */
 public class BookForList {
 	private int id;
 	private String name;
