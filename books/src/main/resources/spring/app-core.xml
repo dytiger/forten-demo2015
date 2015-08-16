@@ -11,29 +11,24 @@
 		http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/mvc
 		http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	<!-- 声明Spring MVC使用注解方式进行配置 -->
 	<mvc:annotation-driven />
+	<!-- 声明从什么样的包下开始扫描Spring的Bean组件 -->
 	<context:component-scan base-package="org.forten.demo" />
+	<!-- 加载classpath下的system下所有的properties文件中定义的属性 -->
 	<context:property-placeholder location="classpath*:/system/*.properties" />
+	<!-- 配置数据源，参数值定义在system/db.properties下 -->
 	<bean id="dataSource" destroy-method="close"
 		class="org.apache.commons.dbcp.BasicDataSource" p:driverClassName="${jdbc.driverClassName}"
 		p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}"
 		p:initialSize="${jdbc.initialSize}" p:maxActive="${jdbc.maxActive}"
 		p:maxWait="${jdbc.maxWait}" p:maxIdle="${jdbc.maxIdle}" p:minIdle="${jdbc.minIdle}" />
 
+	<!-- 定义Spring JDBC使用的事务管理器，并把数据源注入到这个Bean里 -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
 		p:dataSource-ref="dataSource" />
 
+	<!-- 声明事务管理方式使用注解驱动 -->
 	<tx:annotation-driven />
-
-	<!-- <bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:prefix="" p:suffix="" /> -->
-
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="defaultEncoding" value="UTF-8" />
-		<!-- 上传文件的最大限制：10M -->
-		<property name="maxUploadSize" value="10485760" />
-	</bean>
 </beans>
